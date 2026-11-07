@@ -1,4 +1,5 @@
-# 매일 새벽 4시 30분(한국 시간)에 물때를 받아 data/tide.json을 갱신한다.
+# 매일 새벽 4시 30분(한국 시간)에 물때를 받아 data/tide.json을 갱신하고,
+# 블로그 최근 글·낚시 노트 목록·사이트 지도(tools/build.py)도 정리한다.
 # 저장소 Settings → Secrets and variables → Actions 에 KHOA_SERVICE_KEY(공공데이터포털 인증키)를 넣어 두면 된다.
 # Actions 탭에서 'Run workflow'를 눌러 바로 돌려 볼 수도 있다.
 name: 물때 갱신
@@ -27,10 +28,14 @@ jobs:
         env:
           KHOA_SERVICE_KEY: ${{ secrets.KHOA_SERVICE_KEY }}
         run: python tools/fetch_tide.py
+      - name: 블로그 최근 글·노트 목록·사이트 지도 정리
+        if: success() || failure()   # 물때가 실패해도 블로그 글 정리는 한다
+        run: python tools/build.py
       - name: 바뀐 게 있으면 저장
+        if: success() || failure()
         run: |
           git config user.name "tide-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/tide.json
-          git diff --cached --quiet || git commit -m "물때 갱신 $(TZ=Asia/Seoul date +%F)"
+          git add data/ index.html notes.html sitemap.xml robots.txt '*.html'
+          git diff --cached --quiet || git commit -m "물때·블로그 글 갱신 $(TZ=Asia/Seoul date +%F)"
           git push
