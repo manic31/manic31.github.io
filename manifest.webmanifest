@@ -1,0 +1,17 @@
+{
+  "name": "다리 건너 낚시 · 강화 물때와 포인트",
+  "short_name": "다리 건너",
+  "description": "강화·석모도·교동도 물때와 직접 다녀온 낚시 포인트",
+  "lang": "ko",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#050D24",
+  "theme_color": "#0B1A3A",
+  "icons": [
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "assets/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

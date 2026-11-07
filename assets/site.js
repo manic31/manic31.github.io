@@ -264,3 +264,9 @@ function drawCurve(ext) {
     curve.innerHTML = s;
   }
 }
+
+// ── 홈 화면 앱 · 오프라인 대비 (sw.js) ─────────────────────────
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  const swBase = /\/points\/[^/]+$/.test(location.pathname) ? '../' : '';
+  window.addEventListener('load', () => navigator.serviceWorker.register(swBase + 'sw.js').catch(() => {}));
+}

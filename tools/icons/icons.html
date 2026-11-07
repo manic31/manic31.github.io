@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>홈 화면 아이콘 후보</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+  @font-face { font-family: 'GmarketSans'; font-weight: 700; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff'); }
+  :root { --bg0: #050D24; --bg1: #0B1A3A; --gold1: #F6D89A; --gold2: #C9964B; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 28px 32px; background: #ECEFF4; font-family: 'Pretendard', sans-serif; color: #1B2333; width: 1100px; }
+  h1 { font-size: 26px; margin: 0 0 4px; }
+  .lead { color: #5B6475; margin: 0 0 22px; font-size: 15px; }
+
+  /* 아이콘 원본: 300×300 설계, zoom으로 크기 조절 */
+  .icon { position: relative; width: 300px; height: 300px; overflow: hidden;
+    background:
+      radial-gradient(ellipse 60% 70% at 50% -10%, rgba(120,170,255,.35), transparent 70%),
+      radial-gradient(ellipse 50% 60% at 85% 120%, rgba(30,90,200,.35), transparent 70%),
+      linear-gradient(180deg, var(--bg1), var(--bg0)); }
+  .icon .inner { position: absolute; inset: 0; transform-origin: 50% 50%; }
+  .icon .br { position: absolute; }
+  .icon .hero { position: absolute; width: 100%; text-align: center; font-family: 'GmarketSans'; font-weight: 700;
+    background: linear-gradient(180deg, #FFFFFF 35%, #A9D2FF 100%); -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 4px 18px rgba(77,163,255,.45)); }
+  .icon .kicker { position: absolute; width: 100%; text-align: center; font-family: 'GmarketSans'; font-weight: 700;
+    background: linear-gradient(180deg, var(--gold1), var(--gold2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+  /* A: 블로그 프로필 그대로 */
+  .A .br { left: 30px; top: 20px; width: 240px; height: 171px; }
+  .A .hero { top: 168px; font-size: 40px; letter-spacing: -1px; }
+  .A .kicker { top: 222px; font-size: 17px; letter-spacing: 2px; }
+  /* B: 같은 그림을 가운데로 모음(동그라미로 잘려도 안전) */
+  .B .inner { transform: scale(.74) translateY(6px); }
+  .B .br { left: 30px; top: 20px; width: 240px; height: 171px; }
+  .B .hero { top: 168px; font-size: 40px; letter-spacing: -1px; }
+  .B .kicker { top: 222px; font-size: 17px; letter-spacing: 2px; }
+  /* C: 글자 없이 다리와 찌만 크게 */
+  .C .br { left: 20px; top: 40px; width: 260px; height: 186px; }
+  .C .fl { position: absolute; left: 141px; top: 168px; width: 18px; height: 63px; }
+
+  .row { display: grid; grid-template-columns: 70px 1fr; align-items: center; gap: 12px; background: #fff; border-radius: 18px; padding: 18px 22px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  .tag { font: 800 40px 'GmarketSans', sans-serif; color: #2F7BFF; text-align: center; }
+  .cells { display: flex; gap: 26px; align-items: flex-end; }
+  .cell { text-align: center; font-size: 13px; color: #5B6475; }
+  .cell .box { margin: 0 auto 8px; overflow: hidden; }
+  .big .box { width: 150px; height: 150px; }
+  .big .icon { zoom: .5; }
+  .sq .box { border-radius: 34px; }          /* 아이폰 */
+  .ci .box { border-radius: 50%; }           /* 동그라미 폰 */
+  .dr .box { border-radius: 50% 50% 50% 18%; }  /* 물방울 모양 폰 */
+  .phone { width: 300px; height: 150px; border-radius: 18px; padding: 20px 24px; display: flex; gap: 22px; align-items: flex-start;
+    background: linear-gradient(160deg, #6E8FB8, #2E4466); }
+  .app { width: 62px; text-align: center; color: #fff; font-size: 11.5px; text-shadow: 0 1px 2px rgba(0,0,0,.5); }
+  .app .box { width: 58px; height: 58px; margin: 0 auto 5px; overflow: hidden; }
+  .app .icon { zoom: .1933; }
+  .app.r .box { border-radius: 14px; } .app.c .box { border-radius: 50%; }
+  .app .dummy { width: 58px; height: 58px; margin: 0 auto 5px; border-radius: 14px; background: rgba(255,255,255,.35); }
+  .note { font-size: 13px; color: #5B6475; margin-top: 6px; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="bridge" viewBox="0 0 420 300">
+      <g fill="none" stroke-linecap="round">
+        <g stroke="#8EC5FF" stroke-width="7"><line x1="0" y1="200" x2="420" y2="200"/><line x1="130" y1="60" x2="130" y2="222"/><line x1="320" y1="60" x2="320" y2="222"/></g>
+        <g stroke="#8EC5FF" stroke-width="2.6" opacity=".75">
+          <line x1="130" y1="70" x2="40" y2="200"/><line x1="130" y1="80" x2="70" y2="200"/><line x1="130" y1="90" x2="100" y2="200"/>
+          <line x1="130" y1="70" x2="220" y2="200"/><line x1="130" y1="80" x2="190" y2="200"/><line x1="130" y1="90" x2="160" y2="200"/>
+          <line x1="320" y1="70" x2="230" y2="200"/><line x1="320" y1="80" x2="260" y2="200"/><line x1="320" y1="90" x2="290" y2="200"/>
+          <line x1="320" y1="70" x2="410" y2="200"/><line x1="320" y1="80" x2="380" y2="200"/><line x1="320" y1="90" x2="350" y2="200"/>
+        </g>
+        <g fill="#CFE5FF" stroke="none"><circle cx="130" cy="60" r="3"/><circle cx="320" cy="60" r="3"/>
+          <circle cx="40" cy="200" r="2"/><circle cx="100" cy="200" r="2"/><circle cx="160" cy="200" r="2"/><circle cx="220" cy="200" r="2"/>
+          <circle cx="260" cy="200" r="2"/><circle cx="320" cy="200" r="2"/><circle cx="380" cy="200" r="2"/></g>
+        <g stroke="#4DA3FF" stroke-width="3" opacity=".45">
+          <path d="M0 240 Q 30 234 60 240 T 120 240 T 180 240 T 240 240 T 300 240 T 360 240 T 420 240"/>
+          <path d="M20 262 Q 50 256 80 262 T 140 262 T 200 262 T 260 262 T 320 262 T 380 262" opacity=".6"/>
+        </g>
+      </g>
+    </symbol>
+    <symbol id="float" viewBox="0 0 20 70">
+      <line x1="10" y1="0" x2="10" y2="22" stroke="#F6D89A" stroke-width="2.5"/>
+      <ellipse cx="10" cy="40" rx="8" ry="20" fill="#FF8A3D"/><ellipse cx="10" cy="54" rx="8" ry="8" fill="#FFFFFF"/>
+    </symbol>
+  </defs>
+</svg>
+
+<template id="tA"><div class="icon A"><div class="inner"><svg class="br"><use href="#bridge" width="100%" height="100%"/></svg><div class="hero">다리 건너</div><div class="kicker">FISHING</div></div></div></template>
+<template id="tB"><div class="icon B"><div class="inner"><svg class="br"><use href="#bridge" width="100%" height="100%"/></svg><div class="hero">다리 건너</div><div class="kicker">FISHING</div></div></div></template>
+<template id="tC"><div class="icon C"><div class="inner"><svg class="br"><use href="#bridge" width="100%" height="100%"/></svg><svg class="fl"><use href="#float" width="100%" height="100%"/></svg></div></div></template>
+
+<h1>홈 화면 아이콘 후보</h1>
+<p class="lead">왼쪽 세 개는 크게 본 모양(아이폰 · 동그라미 폰 · 물방울 폰), 오른쪽은 실제 휴대폰 홈 화면 크기예요.</p>
+<div id="rows"></div>
+
+<script>
+const rows = [
+  ['A', '블로그 프로필 로고 그대로. 동그라미 폰에서는 FISHING 아래가 살짝 잘릴 수 있어요.'],
+  ['B', 'A와 같은 그림을 가운데로 모았어요. 어떤 모양으로 잘려도 글자가 안 잘려요.'],
+  ['C', '글자 없이 다리와 주황 찌만. 작은 크기에서 가장 또렷해요.'],
+];
+const ic = k => document.getElementById('t' + k).innerHTML;
+// 파일 뽑기용: icons.html#A-512 처럼 열면 그 아이콘 하나만 왼쪽 위에 그 크기로 그린다
+const m = location.hash.match(/^#([ABC])-(\d+)$/);
+if (m) {
+  document.body.style.cssText = 'margin:0;padding:0;background:#000;width:auto';
+  document.body.innerHTML = document.querySelector('svg').outerHTML + `<div style="zoom:${+m[2] / 300}">${ic(m[1])}</div>`;
+  throw new Error('single icon mode');
+}
+document.getElementById('rows').innerHTML = rows.map(([k, note]) => `
+  <div class="row"><div class="tag">${k}</div><div>
+    <div class="cells">
+      <div class="cell big sq"><div class="box">${ic(k)}</div>아이폰</div>
+      <div class="cell big ci"><div class="box">${ic(k)}</div>동그라미 폰</div>
+      <div class="cell big dr"><div class="box">${ic(k)}</div>물방울 폰</div>
+      <div class="phone">
+        <div class="app r"><div class="box">${ic(k)}</div>다리 건너</div>
+        <div class="app c"><div class="box">${ic(k)}</div>다리 건너</div>
+        <div class="app"><div class="dummy"></div>카메라</div>
+      </div>
+    </div>
+    <div class="note">${note}</div>
+  </div></div>`).join('');
+</script>
+</body>
+</html>
