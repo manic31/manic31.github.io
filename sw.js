@@ -1,11 +1,11 @@
 // 다리 건너 낚시 · 오프라인 대비
 // 인터넷이 되면 항상 새로 받고(받은 것은 저장), 안 되면 마지막으로 저장한 것을 보여 준다.
 // 화면 파일을 바꿔도 이 방식이라 따로 버전을 올릴 필요가 없다.
-const CACHE = 'darigeonneo-v1';
+const CACHE = 'darigeonneo-v2';
 const CORE = ['./', 'index.html', 'points.html', 'about.html', 'privacy.html',
   'assets/style.css', 'assets/site.js', 'assets/mapdata.js', 'data/tide.json',
   'points/jjoksil.html', 'points/seondupo.html', 'points/seokmo-healing.html',
-  'assets/icons/icon-192.png', 'manifest.webmanifest'];
+  'assets/icons/icon-192-v2.png', 'manifest.webmanifest'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));

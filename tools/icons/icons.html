@@ -106,7 +106,9 @@ const ic = k => document.getElementById('t' + k).innerHTML;
 const m = location.hash.match(/^#([ABC])-(\d+)$/);
 if (m) {
   document.body.style.cssText = 'margin:0;padding:0;background:#000;width:auto';
-  document.body.innerHTML = document.querySelector('svg').outerHTML + `<div style="zoom:${+m[2] / 300}">${ic(m[1])}</div>`;
+  // 크기는 transform으로 맞춘다(배율 1에서 찍기). zoom이나 화면 배율은 위치가 어긋났다.
+  document.body.innerHTML = document.querySelector('svg').outerHTML +
+    `<div style="width:${m[2] / devicePixelRatio}px;height:${m[2] / devicePixelRatio}px;overflow:hidden"><div style="transform:scale(${+m[2] / devicePixelRatio / 300});transform-origin:0 0;width:300px">${ic(m[1])}</div></div>`;
   throw new Error('single icon mode');
 }
 document.getElementById('rows').innerHTML = rows.map(([k, note]) => `
