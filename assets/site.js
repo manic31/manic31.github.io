@@ -177,7 +177,9 @@ window.drawTide = async function () {
     if (tabs) tabs.innerHTML = data.stations.map(x =>
       `<button type="button" role="tab" aria-selected="${x.code === code}" data-code="${x.code}">${x.name}</button>`).join('');
     const updated = data.generated ? data.generated.slice(5, 10).replace('-', '/') + ' 갱신' : '';
-    set('tideSrc', `${st.name} 관측소 기준 · ${updated}`);
+    // 탭 이름과 실제 관측소가 다르면(시화방조제 → 인천송도) 둘 다 보여 준다
+    const obs = st.obs && st.obs !== st.name ? `${st.name} · ${st.obs} 관측소 기준` : `${st.name} 관측소 기준`;
+    set('tideSrc', `${obs} · ${updated}`);
     const day = data.days[today];
     const todayExt = st.ext[today];
     if (!day || !todayExt) { set('tideDate', '오늘 물때 자료가 아직 없어요.'); return; }

@@ -1,7 +1,7 @@
 """물때 자료 받아 오기 → site/data/tide.json
 
 국립해양조사원 조석예보(고·저조) API (공공데이터포털)에서
-강화대교·교동대교·인천·영종대교 관측소의 오늘부터 열흘치 만조/간조를 받아
+강화대교·교동대교·영종대교·인천송도(시화방조제 탭) 관측소의 오늘부터 열흘치 만조/간조를 받아
 홈페이지가 읽는 JSON 한 개로 저장한다.
 
   실제 자료:  KHOA_SERVICE_KEY=발급키  python tools/fetch_tide.py
@@ -22,11 +22,11 @@ from datetime import date, datetime, timedelta, timezone
 
 KST = timezone(timedelta(hours=9))
 API = "https://apis.data.go.kr/1192136/tideFcstHghLw/GetTideFcstHghLwApiService"
-STATIONS = [  # 순서대로 화면 탭에 나온다. 첫 번째가 기본.
-    ("DT_0032", "강화대교"),
-    ("DT_0064", "교동대교"),
-    ("DT_0001", "인천"),
-    ("DT_0044", "영종대교"),
+STATIONS = [  # (관측소 코드, 탭 이름, 실제 관측소 이름) 순서대로 화면 탭에 나온다. 첫 번째가 기본.
+    ("DT_0032", "강화대교", "강화대교"),
+    ("DT_0064", "교동대교", "교동대교"),
+    ("DT_0044", "영종대교", "영종대교"),
+    ("DT_0052", "시화방조제", "인천송도"),  # 방조제 앞엔 관측소가 없어 가장 가까운 송도(약 4~5km) 기준
 ]
 DAYS = 10
 SUN_AT = (37.70, 126.45)  # 일출·일몰 계산 위치(강화도 가운데쯤)
@@ -125,7 +125,7 @@ def fetch_day(key, code, d):
 
 # ── 키 없이 화면 확인용 예시(진짜 물때 아님) ────────────────────
 def sample_day(code, d):
-    shift = {"DT_0032": 70, "DT_0064": 40, "DT_0001": 0, "DT_0044": 10}[code]
+    shift = {"DT_0032": 70, "DT_0064": 40, "DT_0044": 10, "DT_0052": 15}.get(code, 0)
     lday = lunar_day(d)
     amp = 0.6 + 0.4 * math.cos(2 * math.pi * (lday - 2) / 14.77)  # 사리에 크고 조금에 작게
     first = (lday * 50 + 180 + shift) % 745
@@ -153,8 +153,8 @@ def main():
         rise, set_ = sun_times(d, *SUN_AT)
         data["days"][d.strftime("%Y%m%d")] = {"lunar": ld, "mul": mulddae(ld), "sunrise": rise, "sunset": set_}
     failed = 0
-    for code, name in STATIONS:
-        st = {"code": code, "name": name, "ext": {}}
+    for code, name, obs in STATIONS:
+        st = {"code": code, "name": name, "obs": obs, "ext": {}}
         for d in dates:
             try:
                 st["ext"][d.strftime("%Y%m%d")] = sample_day(code, d) if sample else fetch_day(key, code, d)
