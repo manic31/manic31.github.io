@@ -198,9 +198,12 @@ window.drawTide = async function () {
       ...todayExt.map(e => [hr(e.time), e.level, e.t]),
       ...tomo.slice(0, 2).map(e => [hr(e.time) + 24, e.level, e.t]),
     ].filter(e => e[1] != null);
+    // 물때가 자정을 넘어가 오늘이 3번뿐인 날은 내일 첫 물때를 흐리게 덧붙인다
+    const shown = [...todayExt.map(e => ({ ...e, h: hr(e.time) })),
+      ...(todayExt.length < 4 ? tomo.slice(0, 4 - todayExt.length).map(e => ({ ...e, h: hr(e.time) + 24, tomo: true })) : [])];
     const times = $('times');
-    if (times) times.innerHTML = todayExt.map(e =>
-      `<div class="t" data-h="${hr(e.time).toFixed(3)}"><div class="k${e.t === 'L' ? ' low' : ''}">${e.t === 'H' ? '만조' : '간조'}</div><div class="v">${e.time}</div><div class="h">${e.level ?? '–'}cm</div></div>`).join('');
+    if (times) times.innerHTML = shown.map(e =>
+      `<div class="t${e.tomo ? ' tomo' : ''}" data-h="${e.h.toFixed(3)}"><div class="k${e.t === 'L' ? ' low' : ''}">${e.tomo ? '내일 ' : ''}${e.t === 'H' ? '만조' : '간조'}</div><div class="v">${e.time}</div><div class="h">${e.level ?? '–'}cm</div></div>`).join('');
     drawCurve(ext);
     drawWeek();
   };

@@ -70,6 +70,8 @@ section { margin: 28px 0; }
 .times { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 14px 0 6px; }
 .t { padding: 10px 2px; border-radius: 12px; background: rgba(5,13,36,.45); text-align: center; }
 .t.next { outline: 1.5px solid var(--gold1); }
+.t.tomo { opacity: .55; }
+.t.tomo.next { opacity: 1; }
 .t .k { font-size: 13px; color: var(--sky2); font-weight: 700; }
 .t .k.low { color: var(--gold1); }
 .t .v { font-size: 19px; font-weight: 800; letter-spacing: -.5px; }
