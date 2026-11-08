@@ -7,6 +7,9 @@ name: 물때 갱신
 on:
   schedule:
     - cron: "30 19 * * *"   # UTC 19:30 = KST 04:30
+    # 블로그 예약 발행(수 21:00, 일 09:00) 30분 뒤 최근 글 반영
+    - cron: "30 12 * * 3"   # UTC 수 12:30 = KST 수 21:30
+    - cron: "30 0 * * 0"    # UTC 일 00:30 = KST 일 09:30
   workflow_dispatch:
 
 permissions:
