@@ -188,8 +188,15 @@ def main():
     write("index.html", index)
 
     nt = read("notes.html")
-    empty = '\n      <p class="empty">아직 정리한 글이 없어요. 곧 채워 갈게요.</p>' if not notes else note_items(notes)
-    write("notes.html", between(nt, "list", empty + "\n    "))
+    empty = '\n      <p class="empty">아직 정리한 글이 없어요.</p>' if not notes else note_items(notes)
+    nt = between(nt, "list", empty + "\n    ")
+    # 글이 없을 땐 빈 페이지를 검색에 내지 않고(noindex), 첫 글이 생기면 자동으로 뺀다
+    noindex = '<meta name="robots" content="noindex">'
+    if not notes and noindex not in nt:
+        nt = re.sub(r"(</title>\n)", r"\1" + noindex + "\n", nt, count=1)
+    elif notes:
+        nt = nt.replace(noindex + "\n", "")
+    write("notes.html", nt)
 
     pages = public_pages()
     if not notes:  # 글이 없을 땐 빈 목록 페이지를 검색에 내지 않는다
