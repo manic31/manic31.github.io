@@ -40,5 +40,7 @@ jobs:
           git config user.name "tide-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/ index.html notes.html sitemap.xml robots.txt '*.html'
-          git diff --cached --quiet || git commit -m "물때·블로그 글 갱신 $(TZ=Asia/Seoul date +%F)"
+          git diff --cached --quiet && exit 0
+          git commit -m "물때·블로그 글 갱신 $(TZ=Asia/Seoul date +%F)"
+          git pull --rebase   # 날씨 봇이 먼저 커밋했을 수 있음
           git push

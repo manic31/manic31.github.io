@@ -205,8 +205,40 @@ window.drawTide = async function () {
     if (times) times.innerHTML = shown.map(e =>
       `<div class="t${e.tomo ? ' tomo' : ''}" data-h="${e.h.toFixed(3)}"><div class="k${e.t === 'L' ? ' low' : ''}">${e.tomo ? '내일 ' : ''}${e.t === 'H' ? '만조' : '간조'}</div><div class="v">${e.time}</div><div class="h">${e.level ?? '–'}cm</div></div>`).join('');
     drawCurve(ext);
+    drawWind();
     drawWeek();
   };
+  // ── 바람·날씨(기상청 단기예보, data/weather.json) ──
+  let wx = null;
+  const drawWind = () => {
+    const box = $('wind');
+    if (!box) return;
+    const pl = wx && wx.places && wx.places[code];
+    const hrs = pl ? pl.hours : [];
+    const nowH = String(kst.getHours()).padStart(2, '0');
+    // 지금 시각과 같은(없으면 바로 다음) 예보
+    const cur = hrs.find(x => x.d === today && x.h >= nowH) || hrs.find(x => x.d > today);
+    // 오래된 자료(14시간 넘음)는 안 보여 준다
+    const old = !wx || !wx.generated || (Date.now() - Date.parse(wx.generated)) > 14 * 3600e3;
+    if (!cur || old) { box.hidden = true; return; }
+    const DIR = ['북', '북동', '동', '남동', '남', '남서', '서', '북서'];
+    const dir = v => DIR[Math.round(((v % 360) + 360) % 360 / 45) % 8];
+    // 화살표는 바람이 불어 가는 쪽을 가리킨다
+    const arrow = v => `<svg class="ar" viewBox="0 0 24 24" style="transform:rotate(${v + 180}deg)" aria-hidden="true"><path d="M12 3l6 9h-4v9h-4v-9H6z" fill="currentColor"/></svg>`;
+    const sky = x => x.pty === 1 || x.pty === 4 ? '비' : x.pty === 2 ? '비·눈' : x.pty === 3 ? '눈'
+      : x.sky === 4 ? '흐림' : x.sky === 3 ? '구름 많음' : '맑음';
+    const ms = w => w == null ? '–' : (Math.round(w * 10) / 10).toString().replace(/\.0$/, '');
+    const strong = w => w != null && w >= 7;
+    // 낚시 시간대 바람: 오늘 18시가 지나면 내일 것을 보여 준다
+    const tday = kst.getHours() >= 18 ? key(addDay(kst, 1)) : today;
+    const cells = ['06', '09', '12', '15', '18'].map(h => hrs.find(x => x.d === tday && x.h === h))
+      .map((x, i) => x ? `<div class="wc${strong(x.wsd) ? ' strong' : ''}"><div class="wh">${+['06', '09', '12', '15', '18'][i]}시</div>${x.vec != null ? arrow(x.vec) : ''}<div class="wv">${ms(x.wsd)}<small>m</small></div></div>` : '').join('');
+    box.innerHTML = `<div class="wnow${strong(cur.wsd) ? ' strong' : ''}">${cur.vec != null ? arrow(cur.vec) : ''}<b>${cur.vec != null ? dir(cur.vec) + '풍 ' : ''}${ms(cur.wsd)}m/s</b><span>${sky(cur)}${cur.tmp != null ? ' · ' + Math.round(cur.tmp) + '°' : ''}${cur.pop ? ' · 비 ' + cur.pop + '%' : ''}</span>${wx.sample ? '<span class="wsrc">예시</span>' : ''}</div>`
+      + (cells ? `<div class="wrow"><span class="wl">${tday === today ? '오늘' : '내일'}<br>바람</span>${cells}</div>` : '');
+    box.hidden = false;
+  };
+  fetch('data/weather.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : null)
+    .then(j => { wx = j; drawWind(); }).catch(() => {});
   const drawWeek = () => {
     const week = $('week');
     if (!week) return;
@@ -265,7 +297,7 @@ function drawCurve(ext) {
     let s = `<defs><linearGradient id="fillg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4DA3FF" stop-opacity=".45"/><stop offset="1" stop-color="#4DA3FF" stop-opacity="0"/></linearGradient></defs>`;
     [0, 6, 12, 18, 24].forEach(h => s += `<line x1="${x(h)}" y1="${top}" x2="${x(h)}" y2="${bot}" stroke="rgba(142,197,255,.12)"/><text x="${Math.min(Math.max(x(h), 10), W - 14)}" y="144" fill="#8EA0BE" font-size="11" text-anchor="middle">${h}시</text>`);
     s += `<path d="${d}L${W} ${bot}L0 ${bot}z" fill="url(#fillg)"/><path d="${d}" fill="none" stroke="#8EC5FF" stroke-width="2.5"/>`;
-    s += `<line x1="${x(now)}" y1="${top}" x2="${x(now)}" y2="${bot}" stroke="#F6D89A" stroke-dasharray="3 3"/><circle cx="${x(now)}" cy="${y(level(now))}" r="5" fill="#F6D89A"/><text x="${x(now) + 8}" y="${top + 10}" fill="#F6D89A" font-size="11"${now > 18 ? ' text-anchor="end" dx="-16"' : ''}>지금 · ${rising ? '들물' : '날물'}</text>`;
+    s += `<line x1="${x(now)}" y1="${top}" x2="${x(now)}" y2="${bot}" stroke="#F6D89A" stroke-dasharray="3 3"/><circle cx="${x(now)}" cy="${y(level(now))}" r="5" fill="#F6D89A"/><text class="nowlbl" x="${x(now) + 8}" y="${top + 12}" fill="#F6D89A" font-size="13" font-weight="700"${now > 18 ? ' text-anchor="end" dx="-20"' : ''}>지금 · ${rising ? '들물' : '날물'}</text>`;
     curve.innerHTML = s;
   }
 }

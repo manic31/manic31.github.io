@@ -42,6 +42,8 @@ img { max-width: 100%; display: block; }
 .banner h1 { margin: 6px 0 14px; font-size: clamp(44px, 9vw, 76px); letter-spacing: -2px; line-height: 1.1; }
 .banner .band { font-size: clamp(16px, 3vw, 22px); letter-spacing: 1px; }
 .banner .bridge { position: absolute; right: -30px; top: 0; width: min(420px, 55vw); height: auto; z-index: -1; opacity: .9; }
+.title-row { display: flex; align-items: center; gap: 10px; }
+.title-float { display: none; }
 .banner .lead { margin: 18px 0 0; color: var(--muted); font-size: 15px; max-width: 460px; }
 .page-head { padding: 26px 0 8px; }
 .page-head h1 { margin: 4px 0 8px; font-size: clamp(32px, 6vw, 46px); letter-spacing: -1px; line-height: 1.2; }
@@ -61,7 +63,7 @@ section { margin: 28px 0; }
 /* 오늘 물때 (휴대폰 기준: 위에 '지금' 한 줄, 아래 시간표 한 줄, 그래프) */
 .tide { padding: 18px; }
 .now { display: flex; align-items: center; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid rgba(77,163,255,.25); }
-.now .num { font-size: 64px; line-height: 1; flex: none; letter-spacing: -2px; }
+.now .num { font-size: 64px; line-height: 1.18; padding-top: 2px; flex: none; letter-spacing: -2px; }
 .now .date { color: var(--sky2); font-weight: 700; font-size: 14px; }
 .now .next { font-size: 17px; font-weight: 700; margin: 2px 0 6px; line-height: 1.35; }
 .now .next b { font-size: 22px; letter-spacing: -.5px; }
@@ -186,12 +188,16 @@ footer nav a:hover { color: #fff; }
   .tabbar { display: flex; }
   .nav { display: none; }
   .top { padding: 10px 0; }
+  /* 첫 화면: 위 작은 이름 줄은 빼고, 찌를 큰 제목 옆으로 */
+  .home-top { display: none; }
+  .banner { padding-top: 14px !important; }
+  .title-float { display: block; width: 14px; height: 46px; flex: none; margin-top: 2px; }
   /* 대문은 작게: 들어오자마자 물때가 보이도록 */
-  .banner { padding: 6px 0 14px; }
+  .banner { padding: 2px 0 8px; }
   .banner .kicker { font-size: 14px; }
   .banner h1 { font-size: 34px; margin: 2px 0 0; letter-spacing: -1px; }
   .banner .band, .banner .lead, .banner .bokeh { display: none; }
-  .banner .bridge { width: 170px; right: -20px; top: -6px; opacity: .55; }
+  .banner .bridge { width: 152px; right: -22px; top: -2px; opacity: .55; }
   .mock { font-size: 13px; margin: 0 0 4px; }
   section { margin: 22px 0; }
   .sec-head h2 { font-size: 20px; }
@@ -201,6 +207,16 @@ footer nav a:hover { color: #fff; }
   .points { grid-template-columns: 1fr; }
   .points .map { order: 2; }          /* 목록 먼저, 지도는 아래 */
   .card { padding: 18px; border-radius: 18px; }
+  /* 물때 카드: 바람 줄까지 첫 화면에 들어가게 촘촘히 */
+  .card.tide { padding: 14px 16px; }
+  .now { padding-bottom: 8px; }
+  .now .num { font-size: 58px; }
+  .times { margin: 10px 0 4px; }
+  #curve { height: 84px; }
+  .wind { margin-top: 6px; padding-top: 8px; }
+  .wx { margin-top: 8px; padding-top: 8px; font-size: 14px; }
+  /* 그래프 '지금 · 들물/날물' 글씨: 휴대폰에선 그래프가 줄어들어 작아 보이므로 키움 */
+  #curve .nowlbl { font-size: 22px; font-weight: 800; transform: translateY(6px); }
   .card.map { padding: 0; }
   .isl { font-size: 15px; }
   .prose { font-size: 16.5px; }
@@ -220,6 +236,41 @@ footer nav a:hover { color: #fff; }
 .day .tg.big { color: var(--gold1); border-color: rgba(246,216,154,.5); }
 [hidden] { display: none !important; }
 
+/* 바람·날씨 (물때 카드 안) */
+.wind { margin-top: 10px; padding-top: 12px; border-top: 1px solid rgba(77,163,255,.2); }
+.wnow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 15px; color: var(--muted); }
+.wnow b { color: #fff; font-size: 19px; letter-spacing: -.3px; }
+.wnow .ar { width: 22px; height: 22px; color: var(--sky); flex: none; }
+.wnow.strong b, .wnow.strong .ar { color: var(--gold1); }
+.wrow { display: grid; grid-template-columns: auto repeat(5, 1fr); gap: 4px; align-items: center; margin-top: 8px; text-align: center; }
+.wrow .wl { font-size: 12px; color: var(--dim); line-height: 1.25; text-align: left; padding-right: 4px; }
+.wc { padding: 5px 0 4px; border-radius: 10px; background: rgba(77,163,255,.08); }
+.wc .wh { font-size: 12px; color: var(--dim); }
+.wc .ar { width: 15px; height: 15px; color: var(--sky2); display: block; margin: 2px auto 0; }
+.wc .wv { font-size: 15px; font-weight: 700; color: #fff; }
+.wc .wv small { font-size: 11px; font-weight: 600; color: var(--dim); margin-left: 1px; }
+.wc.strong { background: rgba(246,216,154,.14); }
+.wc.strong .wv, .wc.strong .ar { color: var(--gold1); }
+.wnow { flex-wrap: nowrap; white-space: nowrap; }
+.wnow span:not(.wsrc) { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.wnow .wsrc { margin-left: auto; font-size: 11.5px; color: var(--dim); }
+/* 휴대폰: 브라우저 주소창 때문에 화면이 생각보다 짧다 → 바람을 만조·간조 칸 위로 올려 어느 폰이든 첫 화면에 보이게 */
+@media (max-width: 720px) {
+  .card.tide > div:last-child { display: flex; flex-direction: column; }
+  .wind { order: -1; margin: 10px 0 2px; padding-top: 0; border-top: 0; }
+  /* 만조·간조 칸과 바람 칸을 납작하게 → 그래프까지 첫 화면에 */
+  .times { margin: 8px 0 4px; gap: 5px; }
+  .t { padding: 5px 2px 4px; border-radius: 10px; line-height: 1.25; }
+  .t .k { font-size: 12px; }
+  .t .v { font-size: 17px; }
+  .t .h { font-size: 11px; }
+  .wrow { margin-top: 6px; }
+  .wc { padding: 2px 0; line-height: 1.2; }
+  .wc .wh { font-size: 11px; }
+  .wc .ar { width: 12px; height: 12px; display: inline-block; vertical-align: -1px; margin: 0 2px 0 0; }
+  .wc .wv { display: inline; font-size: 14px; }
+}
+
 /* 블로그 최근 글 · 낚시 노트 목록 */
 .blist { display: grid; gap: 10px; }
 .bpost { display: grid; grid-template-columns: 84px 1fr; gap: 12px; align-items: center; padding: 10px; border-radius: 14px; background: var(--card); border: 1px solid rgba(77,163,255,.25); }
@@ -235,3 +286,18 @@ footer nav a:hover { color: #fff; }
 .note-item .nd { font-size: 14px; color: var(--dim); }
 .empty { color: var(--dim); padding: 20px 4px; }
 @media (min-width: 760px) { .blist { grid-template-columns: 1fr 1fr; } }
+
+/* 홈 화면 앱처럼 화면이 넉넉한 휴대폰: 남는 높이를 간격으로 써서 읽기 편하게 */
+@media (max-width: 720px) and (min-height: 760px) {
+  .banner { padding-bottom: 14px; }
+  .stabs { margin-bottom: 14px; }
+  .card.tide { padding: 18px 16px 16px; }
+  .now { padding-bottom: 14px; }
+  .wind { margin: 14px 0 6px; }
+  .wrow { margin-top: 10px; gap: 6px; }
+  .wc { padding: 5px 0; }
+  .times { margin: 12px 0 8px; gap: 6px; }
+  .t { padding: 8px 2px 7px; }
+  #curve { height: 96px; }
+  .wx { margin-top: 12px; padding-top: 12px; }
+}

@@ -1,0 +1,38 @@
+# 3시간마다 기상청 단기예보(바람·하늘·기온·강수확률)를 받아 data/weather.json을 갱신한다.
+# 인증키는 물때와 같은 공공데이터포털 키(Secrets의 KHOA_SERVICE_KEY). 포털에서 '기상청_단기예보 조회서비스' 활용신청 필요.
+# 기상청은 02·05·08·11·14·17·20·23시에 발표하고 10분쯤 뒤부터 받을 수 있다. 그 20분 뒤에 돌린다.
+name: 바람·날씨 갱신
+
+on:
+  schedule:
+    - cron: "20 20,23,2,5,8,11 * * *"   # UTC → KST 05:20 08:20 11:20 14:20 17:20 20:20
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: tide          # 물때 갱신과 겹쳐 돌지 않게 같은 묶음
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 날씨 받기
+        env:
+          KHOA_SERVICE_KEY: ${{ secrets.KHOA_SERVICE_KEY }}
+        run: python tools/fetch_weather.py
+      - name: 바뀐 게 있으면 저장
+        run: |
+          git config user.name "tide-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/weather.json
+          git diff --cached --quiet && exit 0
+          git commit -m "바람·날씨 갱신 $(TZ=Asia/Seoul date '+%F %H:%M')"
+          git pull --rebase
+          git push

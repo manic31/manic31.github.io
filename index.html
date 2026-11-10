@@ -20,7 +20,7 @@
 </head>
 <body>
 <div class="wrap">
-  <header class="top">
+  <header class="top home-top">
     <a class="brand" href="./"><svg width="12" height="40"><use href="#float"/></svg>다리 건너 낚시</a>
     <nav class="nav">
       <a class="on" href="./">물때</a>
@@ -36,7 +36,7 @@
     <span class="bokeh" style="left:2%;top:14px;width:8px;height:8px;opacity:.6"></span>
     <svg class="bridge" viewBox="0 0 420 300" aria-hidden="true"><use href="#bridge"/></svg>
     <div class="kicker gold">강화 · 석모도 · 교동도</div>
-    <h1 class="hero">다리 건너 낚시</h1>
+    <div class="title-row"><svg class="title-float" viewBox="0 0 20 70" aria-hidden="true"><use href="#float"/></svg><h1 class="hero">다리 건너 낚시</h1></div>
     <div class="band">오늘 물때 · 포인트 지도</div>
     <p class="lead">출조 전에 한 번 보고 가세요. 강화 앞바다 물때와 직접 다녀온 포인트를 정리했습니다.</p>
   </div>
@@ -61,6 +61,7 @@
       <div>
         <div class="times" id="times"></div>
         <svg id="curve" viewBox="0 0 600 150" preserveAspectRatio="none" aria-label="오늘 조위 곡선"></svg>
+        <div class="wind" id="wind" hidden></div>
         <div class="wx">
           <span>일출 <b id="sunrise">–</b> · 일몰 <b id="sunset">–</b></span>
           <span>물때 <b>서해 7물때식</b></span>
@@ -133,7 +134,7 @@
 
   <footer>
     <nav><a href="points.html">포인트</a><a href="about.html">소개</a><a href="privacy.html">개인정보처리방침</a><a href="https://blog.naver.com/manic31">블로그</a></nav>
-    물때 자료: 국립해양조사원 조석예보 ·일출·일몰은 계산값 · © 다리 건너 낚시
+    물때 자료: 국립해양조사원 조석예보 · 바람·날씨: 기상청 단기예보 · 일출·일몰은 계산값 · © 다리 건너 낚시
   </footer>
 </div>
 <script src="assets/mapdata.js"></script>
