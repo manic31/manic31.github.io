@@ -3,6 +3,11 @@
 // 2) 포인트 자료와 지도 그리기
 // 3) 물때(지금은 예시 숫자) 그리기
 {
+  // 물결 흐름·찌 까딱임. 휴대폰에서 '움직임 줄이기'를 켠 분께는 멈춘 그림으로 보여 준다
+  const still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const anim = s => still ? '' : s;
+  // 찌가 까딱일 때 찌톱 녹색 케미에 불이 들어왔다가 다시 꺼진다(몸통은 늘 주황)
+  const glow = (attr, values) => anim(`<animate attributeName="${attr}" values="${values}" keyTimes="0; .1; .45; .7; 1" dur="4s" repeatCount="indefinite"/>`);
   const defs = `
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
   <filter id="rough" x="-5%" y="-30%" width="110%" height="160%">
@@ -20,14 +25,18 @@
     <g fill="#CFE5FF" stroke="none"><circle cx="130" cy="60" r="3"/><circle cx="320" cy="60" r="3"/>
       <circle cx="40" cy="200" r="2"/><circle cx="100" cy="200" r="2"/><circle cx="160" cy="200" r="2"/><circle cx="220" cy="200" r="2"/>
       <circle cx="260" cy="200" r="2"/><circle cx="320" cy="200" r="2"/><circle cx="380" cy="200" r="2"/></g>
-    <g stroke="#4DA3FF" stroke-width="1.5" opacity=".35">
-      <path d="M0 240 Q 30 234 60 240 T 120 240 T 180 240 T 240 240 T 300 240 T 360 240 T 420 240"/>
-      <path d="M20 262 Q 50 256 80 262 T 140 262 T 200 262 T 260 262 T 320 262 T 380 262" opacity=".6"/>
+    <g stroke="#4DA3FF" stroke-width="1.8" opacity=".6">
+      <path d="M0 240 Q 30 234 60 240 T 120 240 T 180 240 T 240 240 T 300 240 T 360 240 T 420 240 T 480 240">${anim('<animateTransform attributeName="transform" type="translate" from="0 0" to="-60 0" dur="4s" repeatCount="indefinite"/>')}</path>
+      <path d="M-40 262 Q -10 256 20 262 T 80 262 T 140 262 T 200 262 T 260 262 T 320 262 T 380 262 T 440 262" opacity=".6">${anim('<animateTransform attributeName="transform" type="translate" from="0 0" to="60 0" dur="8s" repeatCount="indefinite"/>')}</path>
     </g></g></symbol>
-  <symbol id="float" viewBox="0 0 20 70">
-    <line x1="10" y1="0" x2="10" y2="22" stroke="#F6D89A" stroke-width="2.5"/>
+  <radialGradient id="kemiGlow"><stop offset="0" stop-color="#9DFF7A" stop-opacity=".95"/><stop offset=".45" stop-color="#4DFF4D" stop-opacity=".45"/><stop offset="1" stop-color="#4DFF4D" stop-opacity="0"/></radialGradient>
+  <symbol id="float" viewBox="0 0 20 70" overflow="visible"><g>
+    <circle cx="10" cy="3" r="13" fill="url(#kemiGlow)" opacity="0">${glow('opacity', '0; .95; .75; 0; 0')}</circle>
+    <line x1="10" y1="6" x2="10" y2="22" stroke="#F6D89A" stroke-width="2.5"/>
+    <rect x="7.9" y="-3" width="4.2" height="10" rx="2.1" fill="${still ? '#7CFF5C' : '#3D5C44'}">${glow('fill', '#3D5C44; #7CFF5C; #7CFF5C; #3D5C44; #3D5C44')}</rect>
     <ellipse cx="10" cy="40" rx="8" ry="20" fill="#FF8A3D"/><ellipse cx="10" cy="54" rx="8" ry="8" fill="#FFFFFF"/>
-  </symbol>
+    ${anim('<animateTransform attributeName="transform" type="translate" values="0 0; 0 -6; 0 1.5; 0 0; 0 0" keyTimes="0; .12; .28; .4; 1" calcMode="spline" keySplines=".3 0 .4 1; .4 0 .6 1; .4 0 .6 1; 0 0 1 1" dur="4s" repeatCount="indefinite"/>')}
+  </g></symbol>
 </defs></svg>`;
   document.body.insertAdjacentHTML('afterbegin', defs);
 

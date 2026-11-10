@@ -44,6 +44,7 @@ img { max-width: 100%; display: block; }
 .banner .bridge { position: absolute; right: -30px; top: 0; width: min(420px, 55vw); height: auto; z-index: -1; opacity: .9; }
 .title-row { display: flex; align-items: center; gap: 10px; }
 .title-float { display: none; }
+.title-float, .brand svg { overflow: visible; }
 .banner .lead { margin: 18px 0 0; color: var(--muted); font-size: 15px; max-width: 460px; }
 .page-head { padding: 26px 0 8px; }
 .page-head h1 { margin: 4px 0 8px; font-size: clamp(32px, 6vw, 46px); letter-spacing: -1px; line-height: 1.2; }
