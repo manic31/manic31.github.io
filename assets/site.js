@@ -71,7 +71,7 @@ window.POINTS = [
   // 석모도 힐링: 2026-11-15 5편에서 위치 공개. 사용자가 준 네이버 공유 링크(수로 자리). 나룻부리항 근처지만 수로에선 항구가 안 보임.
   { id: 'seokmo-healing', name: '석모도 힐링 포인트', region: '석모도 삼산면 · 나룻부리항 근처', fish: '바다 · 붕어 · 배스', kind: 'open',
     tip: '수로 붕어(터 셈) · 언덕 너머 바다 원투 · 해 지면 바다 쪽은 철수', lon: 126.3694, lat: 37.6890,
-    naver: 'https://naver.me/GKI0UknN' },
+    naver: 'https://map.naver.com/p/entry/coordinates/3yS80M,2ARbFT?c=3yS80M%2C2ARbFT%2C15%2C0%2C0%2C0%2Cdh' },
 ];
 const toXY = (lon, lat) => {
   const m = window.MAPDATA;
