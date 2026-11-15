@@ -60,6 +60,11 @@
 // lon/lat은 실제 좌표. 지금은 지명 기준 대략값이고, 네이버 지도 공유 링크를 받으면 그 좌표로 바꾼다.
 // naver: 핀을 눌렀을 때 열 네이버 지도 링크(공유 링크 naver.me/... 를 받으면 교체). 비공개 포인트는 비워 둔다.
 window.POINTS = [
+  // 순서: 새로 올린 포인트가 맨 앞(1번). 새 포인트는 항상 이 줄 바로 아래에 넣는다.
+  // 석모도 힐링: 2026-11-15 5편에서 위치 공개. 사용자가 준 네이버 공유 링크(수로 자리). 나룻부리항 근처지만 수로에선 항구가 안 보임.
+  { id: 'seokmo-healing', name: '석모도 힐링 포인트', region: '석모도 삼산면 · 나룻부리항 근처', fish: '바다 · 붕어 · 배스', kind: 'open',
+    tip: '수로 붕어(터 셈) · 언덕 너머 바다 원투 · 해 지면 바다 쪽은 철수', lon: 126.3694, lat: 37.6890,
+    naver: 'https://map.naver.com/p/entry/coordinates/3yS80M,2ARbFT?c=3yS80M%2C2ARbFT%2C15%2C0%2C0%2C0%2Cdh' },
   // 쪽실: 사용자가 좋아하는 자리(네이버 공유 링크). 양도면 길정리 977, '망실지'라고도 부름.
   { id: 'jjoksil', name: '쪽실수로', alias: '망실지', region: '강화 양도면 길정리', fish: '붕어', season: '가을', kind: 'open',
     tip: '수심 60~70cm · 가을엔 동물성 미끼 · 주차 자리 적어 새벽 일찍', lon: 126.4634, lat: 37.6375, dx: -9,  // 선두포와 400m 거리라 화면에서만 살짝 벌림
@@ -68,10 +73,6 @@ window.POINTS = [
   { id: 'seondupo', name: '선두포 수로', region: '강화 화도면', fish: '붕어', kind: 'closed',
     tip: '앉을 자리에 흙을 쌓아 막음 · 길 건너 쪽실수로로', lon: 126.4659, lat: 37.6344, dx: 9,
     naver: 'https://naver.me/GWWcc4Ap' },
-  // 석모도 힐링: 2026-11-15 5편에서 위치 공개. 사용자가 준 네이버 공유 링크(수로 자리). 나룻부리항 근처지만 수로에선 항구가 안 보임.
-  { id: 'seokmo-healing', name: '석모도 힐링 포인트', region: '석모도 삼산면 · 나룻부리항 근처', fish: '바다 · 붕어 · 배스', kind: 'open',
-    tip: '수로 붕어(터 셈) · 언덕 너머 바다 원투 · 해 지면 바다 쪽은 철수', lon: 126.3694, lat: 37.6890,
-    naver: 'https://map.naver.com/p/entry/coordinates/3yS80M,2ARbFT?c=3yS80M%2C2ARbFT%2C15%2C0%2C0%2C0%2Cdh' },
 ];
 const toXY = (lon, lat) => {
   const m = window.MAPDATA;
