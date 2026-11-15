@@ -302,3 +302,12 @@ footer nav a:hover { color: #fff; }
   #curve { height: 96px; }
   .wx { margin-top: 12px; padding-top: 12px; }
 }
+
+/* 홈 화면 앱: site.js fitTide()가 남는 높이가 있을 때만 .w2를 붙이고 여백을 직접 늘린다 */
+@media (max-width: 720px) {
+  .card.tide.w2 .wc { line-height: 1.3; border-radius: 12px; white-space: nowrap; }
+  .card.tide.w2 .wc .wh { display: block; font-size: 12.5px; margin-bottom: 1px; }
+  .card.tide.w2 .wc .ar { width: 13px; height: 13px; margin: 0 1px 0 0; }
+  .card.tide.w2 .wc .wv { font-size: 16px; }
+  .card.tide.w2 .wrow .wl { font-size: 13px; }
+}

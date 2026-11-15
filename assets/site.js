@@ -248,6 +248,7 @@ window.drawTide = async function () {
     box.innerHTML = `<div class="wnow${strong(cur.wsd) ? ' strong' : ''}">${cur.vec != null ? arrow(cur.vec) : ''}<b>${cur.vec != null ? dir(cur.vec) + '풍 ' : ''}${ms(cur.wsd)}m/s</b><span>${sky(cur)}${cur.tmp != null ? ' · ' + Math.round(cur.tmp) + '°' : ''}${cur.pop ? ' · 비 ' + cur.pop + '%' : ''}</span>${wx.sample ? '<span class="wsrc">예시</span>' : ''}</div>`
       + (cells ? `<div class="wrow"><span class="wl">${tday === today ? '오늘' : '내일'}<br>바람</span>${cells}</div>` : '');
     box.hidden = false;
+    fitTide();
   };
   fetch('data/weather.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : null)
     .then(j => { wx = j; drawWind(); }).catch(() => {});
@@ -274,7 +275,54 @@ window.drawTide = async function () {
     render();
   });
   render();
+  fitTide();
+  window.addEventListener('resize', fitTide);
+  if (document.fonts) document.fonts.ready.then(fitTide);   // 글꼴이 늦게 오면 높이가 바뀌므로 다시 잰다
 };
+
+// 홈 화면 앱(주소창 없음)으로 열었을 때: 물때 카드가 첫 화면을 꽉 채우게 맞춘다.
+// '이번 주 물때' 제목이 아래로 밀려나도록 남는 높이를 ① 바람 칸(두 줄로, 깨지지 않을 만큼) ② 만조·간조 칸 ③ 줄 간격 순서로 나눠 준다.
+function fitTide() {
+  const card = document.querySelector('.card.tide');
+  if (!card) return;
+  const app = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+  const q = sel => [...card.querySelectorAll(sel)];
+  // 지난번에 넣은 값 지우고 원래 모양에서 다시 잰다
+  card.classList.remove('w2');
+  [card, ...q('[data-fit]')].forEach(el => { if (el.dataset.fit) { el.removeAttribute('style'); el.removeAttribute('data-fit'); } });
+  if (!app || innerWidth > 720) return;
+  const bar = document.querySelector('.tabbar');
+  const bottom = innerHeight - (bar ? bar.getBoundingClientRect().height : 0) - 12;
+  const room = () => bottom - (card.getBoundingClientRect().bottom + scrollY);
+  if (room() <= 0) return;
+  // ① 바람 칸: 시각 위 · 풍속 아래 두 줄. 칸 안에서 글씨가 넘치거나 화면을 넘으면 되돌린다
+  const wcs = q('.wc');
+  if (wcs.length) {
+    card.classList.add('w2');
+    if (room() < 0 || wcs.some(c => c.scrollWidth > c.clientWidth + 1)) card.classList.remove('w2');
+  }
+  // 지금 값(px)에 n만큼 더한다. 한 줄에 칸이 여러 개라도 높이는 한 번만 늘어난다
+  const add = (els, props, max, per) => {
+    const r = room();
+    if (r <= 0 || !els.length) return;
+    const n = Math.min(max, Math.floor(r / per));
+    if (n <= 0) return;
+    els.forEach(el => props.forEach(pr => {
+      const base = parseFloat(getComputedStyle(el)[pr]) || 0;
+      el.style[pr] = (base + n) + 'px'; el.dataset.fit = '1';
+    }));
+  };
+  add(wcs, ['paddingTop', 'paddingBottom'], 8, 2);                       // ① 바람 칸
+  add(q('.t'), ['paddingTop', 'paddingBottom'], 10, 2);                  // ② 만조·간조 칸
+  add(q('.now'), ['paddingBottom'], 16, 1);                             // ③ 줄 사이 간격
+  add(q('.wind'), ['marginTop'], 16, 1);
+  add(q('.times'), ['marginTop', 'marginBottom'], 16, 2);
+  add(q('#curve'), ['height'], 24, 1);                                  // ④ 그래프(글씨가 늘어나 보이지 않을 만큼만)
+  // 그래도 남으면(아주 긴 폰) 카드 아래를 비워서 '이번 주 물때'만 밀어낸다
+  const r = room();
+  if (r > 0) { card.style.marginBottom = (r + 12) + 'px'; card.dataset.fit = '1'; }
+}
+
 
 function drawCurve(ext) {
   const curve = document.getElementById('curve');
