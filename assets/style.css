@@ -121,8 +121,9 @@ section { margin: 28px 0; }
 .p { display: grid; grid-template-columns: 36px 1fr; gap: 12px; align-items: start; padding: 16px; border-radius: 16px; background: var(--card); border: 1px solid rgba(77,163,255,.25); cursor: pointer; }
 .p.on { border-color: var(--gold2); }
 .p .no { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; background: linear-gradient(180deg, #2F7BFF, #1A55C9); }
-.p .no.closed { background: #4A5672; }
+.p .no.closed { background: #6B7894; }   /* 지도 회색 핀과 같은 색 */
 .p .no.secret { background: linear-gradient(180deg, var(--gold1), var(--gold2)); color: #2A1E08; }
+.p.on .no { background: #F0B54A; color: #fff; }   /* 고른 포인트: 지도 노란 핀과 같은 색 */
 .p .name { font-weight: 700; font-size: 17px; }
 .p .meta { font-size: 15px; color: var(--muted); }
 .p .go { display: inline-block; margin-top: 8px; padding: 6px 0; font-size: 15px; color: var(--sky2); font-weight: 700; }
