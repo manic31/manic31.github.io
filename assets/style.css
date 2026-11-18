@@ -256,7 +256,8 @@ footer nav a:hover { color: #fff; }
 .wnow { flex-wrap: nowrap; white-space: nowrap; }
 .wnow span:not(.wsrc) { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 .wnow .wsrc { margin-left: auto; font-size: 11.5px; color: var(--dim); }
-.wnote { margin-top: 4px; text-align: right; font-size: 11.5px; color: var(--dim); }  /* 태안·안면도: 읍내(내륙) 격자 바람 표시 */
+.wnow .wsrc.inland { flex: none; white-space: normal; text-align: right; line-height: 1.15; font-size: 11px; }  /* 태안·안면도: 날씨 줄 오른쪽 끝, 두 줄로 작게 */
+.wnow .wsrc + .wsrc { margin-left: 6px; }
 /* 휴대폰: 브라우저 주소창 때문에 화면이 생각보다 짧다 → 바람을 만조·간조 칸 위로 올려 어느 폰이든 첫 화면에 보이게 */
 @media (max-width: 720px) {
   .card.tide > div:last-child { display: flex; flex-direction: column; }

@@ -222,7 +222,7 @@ window.drawTide = async function () {
   };
   // ── 바람·날씨(기상청 단기예보, data/weather.json) ──
   let wx = null;
-  // 태안·안면도는 민물 낚시용으로 바닷가가 아닌 읍내 격자 바람이라 그렇게 표시한다(tools/fetch_weather.py PLACES)
+  // 태안·안면도는 민물 낚시용으로 바닷가가 아닌 읍내 격자 바람이라 날씨 줄 오른쪽 끝에 표시한다(tools/fetch_weather.py PLACES)
   const INLAND = { DT_0067: '태안읍', DT_0025: '안면읍' };
   const drawWind = () => {
     const box = $('wind');
@@ -247,9 +247,8 @@ window.drawTide = async function () {
     const tday = kst.getHours() >= 18 ? key(addDay(kst, 1)) : today;
     const cells = ['06', '09', '12', '15', '18'].map(h => hrs.find(x => x.d === tday && x.h === h))
       .map((x, i) => x ? `<div class="wc${strong(x.wsd) ? ' strong' : ''}"><div class="wh">${+['06', '09', '12', '15', '18'][i]}시</div>${x.vec != null ? arrow(x.vec) : ''}<div class="wv">${ms(x.wsd)}<small>m</small></div></div>` : '').join('');
-    box.innerHTML = `<div class="wnow${strong(cur.wsd) ? ' strong' : ''}">${cur.vec != null ? arrow(cur.vec) : ''}<b>${cur.vec != null ? dir(cur.vec) + '풍 ' : ''}${ms(cur.wsd)}m/s</b><span>${sky(cur)}${cur.tmp != null ? ' · ' + Math.round(cur.tmp) + '°' : ''}${cur.pop ? ' · 비 ' + cur.pop + '%' : ''}</span>${wx.sample ? '<span class="wsrc">예시</span>' : ''}</div>`
-      + (cells ? `<div class="wrow"><span class="wl">${tday === today ? '오늘' : '내일'}<br>바람</span>${cells}</div>` : '')
-      + (INLAND[code] ? `<div class="wnote">내륙 바람 · ${INLAND[code]}</div>` : '');
+    box.innerHTML = `<div class="wnow${strong(cur.wsd) ? ' strong' : ''}">${cur.vec != null ? arrow(cur.vec) : ''}<b>${cur.vec != null ? dir(cur.vec) + '풍 ' : ''}${ms(cur.wsd)}m/s</b><span>${sky(cur)}${cur.tmp != null ? ' · ' + Math.round(cur.tmp) + '°' : ''}${cur.pop ? ' · 비 ' + cur.pop + '%' : ''}</span>${wx.sample ? '<span class="wsrc">예시</span>' : ''}${INLAND[code] ? `<span class="wsrc inland">내륙 바람<br>${INLAND[code]}</span>` : ''}</div>`
+      + (cells ? `<div class="wrow"><span class="wl">${tday === today ? '오늘' : '내일'}<br>바람</span>${cells}</div>` : '');
     box.hidden = false;
     fitTide();
   };
