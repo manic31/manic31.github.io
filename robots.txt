@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /tools/
 
-Sitemap: https://manic31.github.io/sitemap.xml
+Sitemap: https://darifish.com/sitemap.xml

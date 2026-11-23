@@ -18,7 +18,7 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
 
-SITE_URL = "https://manic31.github.io"   # ← 도메인을 사면 여기만 바꾼다 (끝에 / 없이)
+SITE_URL = "https://darifish.com"   # 2026-11-23 도메인 연결 (끝에 / 없이)
 BLOG_RSS = "https://rss.blog.naver.com/manic31.xml"
 BLOG_COUNT = 4
 
