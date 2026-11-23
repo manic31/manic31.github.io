@@ -146,8 +146,11 @@ section { margin: 28px 0; }
 .prose p, .prose li { color: #DCE6F5; }
 .prose ol, .prose ul { padding-left: 20px; }
 .prose b { color: #fff; }
+.prose p a, .prose li a { color: var(--sky2); text-decoration: underline; text-underline-offset: 3px; }
 .prose figure { margin: 0 0 8px; }
 .prose figure img { display: block; width: 100%; max-width: 390px; height: auto; margin: 0 auto; border-radius: 14px; }
+.prose figure svg { display: block; width: 100%; max-width: 420px; height: auto; margin: 0 auto; }
+.prose figure.tide-phase { margin: 16px 0; }
 .prose figcaption { color: var(--dim); font-size: 13px; text-align: center; margin-top: 8px; }
 .callout { margin: 18px 0; padding: 14px 16px; border-radius: 14px; background: rgba(246,216,154,.1); border: 1px solid rgba(201,150,75,.6); color: var(--gold1); font-size: 15px; }
 .callout.warn { background: rgba(255,155,122,.1); border-color: rgba(255,155,122,.5); color: var(--warn); }

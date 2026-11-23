@@ -129,7 +129,7 @@ def load_notes():
 def note_items(notes, base=""):
     return "".join(f'''
       <a class="note-item" href="{base}{esc(n["file"])}">
-        <div class="nm">{esc(n["tag"])}{" · " if n["tag"] else ""}{esc(n["date"].replace("-", "."))}</div>
+        <div class="nm">{esc(n["tag"])}{" · " if n["tag"] else ""}{esc(n["date"][:10].replace("-", "."))}</div>
         <div class="nt">{esc(n["title"])}</div><div class="nd">{esc(n["desc"])}</div>
       </a>''' for n in notes)
 
@@ -204,7 +204,7 @@ def main():
     for p in public_pages():
         set_canonical(p)
 
-    dates = {n["file"]: n["date"] for n in notes}
+    dates = {n["file"]: n["date"][:10] for n in notes}   # date는 "YYYY-MM-DD" 또는 같은 날 순서용 "YYYY-MM-DD HH:MM"
     urls = "".join(f"  <url><loc>{page_url(p)}</loc>{f'<lastmod>{dates[p]}</lastmod>' if dates.get(p) else ''}</url>\n"
                    for p in pages)
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n')
