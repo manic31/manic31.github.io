@@ -204,7 +204,7 @@ window.drawTide = async function () {
     set('sunrise', day.sunrise); set('sunset', day.sunset);
     const tag = $('tideTag');
     const big = ['6물', '7물', '8물'].includes(day.mul), small = ['조금', '무시'].includes(day.mul);
-    if (tag) { tag.hidden = !(big || small); tag.textContent = big ? '사리 무렵 · 물살 빠름' : '조금 무렵 · 물살 약함'; }
+    if (tag) { tag.hidden = !(big || small); tag.dataset.kind = big ? 'big' : 'small'; }
 
     // 어제 마지막 ~ 내일 처음까지 이어 붙여 0~24시 곡선을 그린다
     const hr = t => +t.slice(0, 2) + +t.slice(3, 5) / 60;
@@ -279,6 +279,7 @@ window.drawTide = async function () {
     code = b.dataset.code;
     try { localStorage.setItem('tideStation', code); } catch (e) {}
     render();
+    fitTide();
   });
   render();
   fitTide();
@@ -288,7 +289,22 @@ window.drawTide = async function () {
 
 // 홈 화면 앱(주소창 없음)으로 열었을 때: 물때 카드가 첫 화면을 꽉 채우게 맞춘다.
 // '이번 주 물때' 제목이 아래로 밀려나도록 남는 높이를 ① 바람 칸(두 줄로, 깨지지 않을 만큼) ② 만조·간조 칸 ③ 줄 간격 순서로 나눠 준다.
+// 사리·조금 알림: '…분 뒤' 옆 자리에 들어가는 가장 긴 문구를 고른다
+function fitTag() {
+  const tag = document.getElementById('tideTag');
+  if (!tag || tag.hidden) return;
+  const row = tag.parentElement;
+  const words = tag.dataset.kind === 'big'
+    ? ['사리 무렵 · 물살 빠름', '사리 · 물살 빠름', '물살 빠름']
+    : ['조금 무렵 · 물살 약함', '조금 · 물살 약함', '물살 약함'];
+  for (const w of words) {
+    tag.textContent = w;
+    if (row.scrollWidth <= row.clientWidth + 1) break;
+  }
+}
+
 function fitTide() {
+  fitTag();
   const card = document.querySelector('.card.tide');
   if (!card) return;
   const app = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;

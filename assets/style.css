@@ -68,7 +68,11 @@ section { margin: 28px 0; }
 .now .date { color: var(--sky2); font-weight: 700; font-size: 14px; }
 .now .next { font-size: 17px; font-weight: 700; margin: 2px 0 6px; line-height: 1.35; }
 .now .next b { font-size: 22px; letter-spacing: -.5px; }
-.now .next .left { display: block; color: var(--gold1); font-size: 15px; }
+.now .next .left { color: var(--gold1); font-size: 15px; }
+/* 사리·조금 알림은 '…분 뒤' 옆에 붙여서 물때에 따라 카드 높이가 달라지지 않게 */
+.now > div:last-child { flex: 1; min-width: 0; }
+.now .next .leftrow { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+.now .next .tag { padding: 1px 9px; font-size: 12px; line-height: 1.6; letter-spacing: -.2px; }
 .tag { display: inline-block; padding: 4px 12px; border-radius: 999px; background: linear-gradient(180deg, #2F7BFF, #1A55C9); font-weight: 700; font-size: 13px; }
 .times { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 14px 0 6px; }
 .t { padding: 10px 2px; border-radius: 12px; background: rgba(5,13,36,.45); text-align: center; }
@@ -178,6 +182,7 @@ footer nav a:hover { color: #fff; }
   .tide { display: grid; grid-template-columns: 240px 1fr; gap: 24px; align-items: center; padding: 22px; }
   .now { flex-direction: column; text-align: center; gap: 8px; padding: 0 16px 0 0; border-bottom: 0; border-right: 1px solid rgba(77,163,255,.25); }
   .now .num { font-size: 76px; }
+  .now .next .leftrow { justify-content: center; }
   .times { margin-top: 0; gap: 10px; }
   #curve { height: 150px; }
   .wx { display: flex; flex-wrap: wrap; gap: 8px 18px; }
