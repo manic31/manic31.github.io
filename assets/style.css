@@ -207,6 +207,7 @@ footer nav a:hover { color: #fff; }
   .banner .bridge { width: 152px; right: -22px; top: -2px; opacity: .55; }
   .mock { font-size: 13px; margin: 0 0 4px; }
   section { margin: 22px 0; }
+  #tide { margin-top: 12px; }          /* 대문 바로 아래는 10px 덜 띄워 물때 카드를 조금 올림 */
   .sec-head h2 { font-size: 20px; }
   .sec-head .sub { font-size: 13px; }
   .page-head { padding: 12px 0 4px; }
