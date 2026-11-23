@@ -41,18 +41,20 @@
   document.body.insertAdjacentHTML('afterbegin', defs);
 
   // 휴대폰 아래 메뉴 막대 (엄지로 누르기 쉽게)
-  const inPoints = /\/points\/[^/]+$/.test(location.pathname.replace(/\\/g, '/'));
-  const base = inPoints ? '../' : '';
+  const sub = (location.pathname.replace(/\\/g, '/').match(/\/(points|notes)\/[^/]+$/) || [])[1];   // points/·notes/ 폴더 안 페이지
+  const inPoints = sub === 'points';
+  const base = sub ? '../' : '';
   const file = location.pathname.split(/[\\/]/).pop() || 'index.html';
-  const here = inPoints || file === 'points.html' ? 'points' : file === 'about.html' ? 'about' : file === 'index.html' || file === '' ? 'tide' : '';
+  const here = inPoints || file === 'points.html' ? 'points' : sub === 'notes' || file === 'notes.html' ? 'notes' : file === 'about.html' ? 'about' : file === 'index.html' || file === '' ? 'tide' : '';
   const ico = {
     tide: '<path d="M2 15c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2M2 20c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2M12 3v7m-3-3 3 3 3-3"/>',
     points: '<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
+    notes: '<path d="M6 3h12v18H6z"/><path d="M9 3v18M12 8h3.5M12 12h3.5"/>',
     about: '<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',
     blog: '<path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/>',
   };
   const tab = (key, href, text) => `<a href="${href}"${here === key ? ' class="on" aria-current="page"' : ''}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ico[key]}</svg>${text}</a>`;
-  document.body.insertAdjacentHTML('beforeend', `<nav class="tabbar" aria-label="메뉴">${tab('tide', base || './', '물때')}${tab('points', base + 'points.html', '포인트')}${tab('blog', 'https://blog.naver.com/manic31', '블로그')}${tab('about', base + 'about.html', '소개')}</nav>`);
+  document.body.insertAdjacentHTML('beforeend', `<nav class="tabbar" aria-label="메뉴">${tab('tide', base || './', '물때')}${tab('points', base + 'points.html', '포인트')}${tab('notes', base + 'notes.html', '노트')}${tab('blog', 'https://blog.naver.com/manic31', '블로그')}${tab('about', base + 'about.html', '소개')}</nav>`);
 }
 
 // ── 포인트 자료 ─────────────────────────────────────────
