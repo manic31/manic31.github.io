@@ -140,7 +140,7 @@ def home_notes_html(notes):
     return f'''
   <section>
     <div class="sec-head"><h2>낚시 노트</h2><a class="more" href="notes.html">전체 보기 →</a></div>
-    <div class="nlist">{note_items(notes[:3])}
+    <div class="nlist">{note_items(notes[:4])}
     </div>
   </section>
   '''

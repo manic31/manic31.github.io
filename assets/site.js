@@ -131,7 +131,7 @@ window.drawMap = function (svgId, listId, opts = {}) {
         <path class="dot" d="M0 0 C-3 -6 -10 -9 -10 -16 A10 10 0 1 1 10 -16 C10 -9 3 -6 0 0Z" fill="#2F7BFF" stroke="#fff" stroke-width="1.5"/>
         <text x="0" y="-12" fill="#fff" font-size="11" font-weight="800" text-anchor="middle">${n}</text></g>`);
     }
-    if (list) {
+    if (list && !(opts.limit && i >= opts.limit)) {   // 첫 화면은 최근 몇 곳만(지도 핀은 전부)
       const chip = p.kind === 'closed' ? '<span class="chip closed">지금 못 앉음</span>' : p.kind === 'secret' ? '<span class="chip secret">위치 비공개</span>' : '';
       list.insertAdjacentHTML('beforeend', `<div class="p" data-i="${i}"><div class="no ${p.kind}">${n}</div><div>
         <div class="name">${p.name}${p.alias ? ` <small style="color:var(--dim);font-weight:600">(${p.alias})</small>` : ''}${chip}</div><div class="meta">${p.region} · ${p.fish}</div><div class="meta">${p.tip}</div>
