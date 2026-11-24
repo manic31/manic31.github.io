@@ -25,6 +25,9 @@ self.addEventListener('fetch', e => {
   e.respondWith(
     // 브라우저 캐시(최대 10분)를 건너뛰고 서버에 바뀌었는지 물어본 뒤 받는다
     fetch(new Request(req.url, { cache: 'no-cache', credentials: 'same-origin' })).then(res => {
+      // 주소가 넘겨졌으면(예: 옛 주소 → 새 주소) 브라우저가 직접 따라가게 넘겨준다.
+      // 넘겨진 응답을 그대로 화면에 주면 "연결할 수 없음"이 뜬다.
+      if (res.redirected) return req.mode === 'navigate' ? Response.redirect(res.url, 302) : res;
       if (res.ok) {
         const copy = res.clone();
         caches.open(CACHE).then(c => c.put(req, copy));
