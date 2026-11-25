@@ -63,9 +63,13 @@
 // naver: 핀을 눌렀을 때 열 네이버 지도 링크(공유 링크 naver.me/... 를 받으면 교체). 비공개 포인트는 비워 둔다.
 window.POINTS = [
   // 순서: 새로 올린 포인트가 맨 앞(1번). 새 포인트는 항상 이 줄 바로 아래에 넣는다.
+  // 양사수로: 2026-11-25 블로그 배스 글과 함께 공개. 사용자가 준 네이버 공유 링크(naver.me/GQGV7wHG, 주로 잡던 자리). 마을이 있고 누구나 다니는 곳(사용자 확인).
+  { id: 'yangsa', name: '양사수로', region: '강화 양사면 · 양사초 동네', fish: '배스', kind: 'open',
+    tip: '4짜도 꽤 · 웜 위주 텍사스·프리리그 · 교동 입구 삼거리 우회전(검문 없음)', lon: 126.4248, lat: 37.8043, dx: -8,  // 양오지와 1.7km 거리라 화면에서만 살짝 벌림
+    naver: 'https://map.naver.com/p/entry/coordinates/3yUrU9,2AW1GZ?c=3yUrU9%2C2AW1GZ%2C15%2C0%2C0%2C0%2Cdh' },
   // 양오지: 2026-11-18 블로그 배스 글과 함께 공개. 사용자가 준 네이버 공유 링크(naver.me/5nhKFEib, 송해면 양오리 163). 관리형 저수지.
   { id: 'yangoji', name: '양오지', alias: '양오저수지', region: '강화 송해면 양오리', fish: '배스', kind: 'open',
-    tip: '6짜까지 · 짜치 많음 · 입어료 1만 원 · 붕어꾼 다대 편성 피해서', lon: 126.4429, lat: 37.7994,
+    tip: '6짜까지 · 짜치 많음 · 입어료 1만 원 · 붕어꾼 다대 편성 피해서', lon: 126.4429, lat: 37.7994, dx: 7,
     naver: 'https://map.naver.com/p/entry/coordinates/3yVd6Q,2AVOU4?c=3yVd6Q%2C2AVOU4%2C15%2C0%2C0%2C0%2Cdh' },
   // 석모도 힐링: 2026-11-15 5편에서 위치 공개. 사용자가 준 네이버 공유 링크(수로 자리). 나룻부리항 근처지만 수로에선 항구가 안 보임.
   { id: 'seokmo-healing', name: '석모도 힐링 포인트', region: '석모도 삼산면 · 나룻부리항 근처', fish: '바다 · 붕어 · 배스', kind: 'open',
